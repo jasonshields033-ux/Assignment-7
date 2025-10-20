@@ -93,3 +93,22 @@ heap.remove_min()  # Should print error message
 # Edge case: peeking into empty heap
 print("\nAttempting to peek into empty heap:")
 heap.peek()  # Should print error message
+
+# Design Memo
+
+#The emergency_queue.py file models an emergency intake system using a min-heap. 
+#This is a smart way to manage patients based on urgency because it always keeps the most critical patient at the top of the queue. 
+#The Patient class stores each patient's name and urgency level, where a lower number means higher priority. 
+#The MinHeap class manages the queue and uses helper methods to keep the heap organized.
+#When a new patient is added, the heapify_up method checks if they need to move up the queue based on urgency. 
+#If a patient is removed, heapify_down makes sure the next most urgent patient moves to the top. 
+#These methods help maintain the heap structure and make sure the system responds quickly to changes. 
+#The heap also supports methods like insert, peek, remove_min, and print_heap, which make it easy to manage and view the queue.
+#This kind of system is useful in real-world settings like hospitals, customer service, or task scheduling. 
+#It ensures that the most important cases are handled first, even as new ones arrive. 
+#The design also handles edge cases like removing from an empty heap or inserting patients with the same urgency level.
+#Using a heap for this problem shows how data structures can improve decision-making and efficiency. 
+#It supports fast access and updates, which are important in time-sensitive situations. 
+#The implementation also helps reinforce key programming skills like class design, list manipulation, and algorithm development.
+#In summary, the min-heap is a great choice for managing urgency-based workflows. 
+#It is simple, fast, and reliable, making it ideal for systems that need to prioritize tasks or people in real time.
