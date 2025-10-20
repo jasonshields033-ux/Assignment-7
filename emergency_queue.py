@@ -1,12 +1,95 @@
 class Patient:
-    pass # Delete this line and implement the Patient class
+    def __init__(self, name, urgency):
+        self.name = name
+        self.urgency = urgency
 
+    def __repr__(self):
+        return f"{self.name} ({self.urgency})"
 
 
 class MinHeap:
-    pass # Delete this line and implement the MinHeap class
+    def __init__(self):
+        self.data = []
 
+    def insert(self, patient):
+        self.data.append(patient)
+        self.heapify_up(len(self.data) - 1)
 
+    def heapify_up(self, index):
+        while index > 0:
+            parent_index = (index - 1) // 2
+            if self.data[index].urgency < self.data[parent_index].urgency:
+                self.data[index], self.data[parent_index] = self.data[parent_index], self.data[index]
+                index = parent_index
+            else:
+                break
+
+    def heapify_down(self, index):
+        size = len(self.data)
+        while index < size:
+            left = 2 * index + 1
+            right = 2 * index + 2
+            smallest = index
+
+            if left < size and self.data[left].urgency < self.data[smallest].urgency:
+                smallest = left
+            if right < size and self.data[right].urgency < self.data[smallest].urgency:
+                smallest = right
+
+            if smallest != index:
+                self.data[index], self.data[smallest] = self.data[smallest], self.data[index]
+                index = smallest
+            else:
+                break
+
+    def print_heap(self):
+        print("Current Queue:")
+        for patient in self.data:
+            print(f"- {patient.name} ({patient.urgency})")
+
+    def peek(self):
+        if not self.data:
+            print("Heap is empty.")
+            return None
+        return self.data[0]
+
+    def remove_min(self):
+        if not self.data:
+            print("Heap is empty. Cannot remove.")
+            return None
+        min_patient = self.data[0]
+        last_patient = self.data.pop()
+        if self.data:
+            self.data[0] = last_patient
+            self.heapify_down(0)
+        return min_patient
 
 
 # Test your MinHeap class here including edge cases
+heap = MinHeap()
+heap.insert(Patient("Jordan", 3))
+heap.insert(Patient("Taylor", 1))
+heap.insert(Patient("Avery", 5))
+heap.insert(Patient("Morgan", 2))
+heap.insert(Patient("Casey", 1))  # Duplicate urgency
+
+heap.print_heap()
+# Expected order: Taylor (1), Casey (1), Morgan (2), Jordan (3), Avery (5)
+
+print("\nPeek at next patient:")
+next_up = heap.peek()
+if next_up:
+    print(next_up.name, next_up.urgency)  # Should be Taylor or Casey (urgency 1)
+
+print("\nRemoving patients:")
+while heap.data:
+    served = heap.remove_min()
+    print(f"Served: {served.name} ({served.urgency})")
+
+# Edge case: removing from empty heap
+print("\nAttempting to remove from empty heap:")
+heap.remove_min()  # Should print error message
+
+# Edge case: peeking into empty heap
+print("\nAttempting to peek into empty heap:")
+heap.peek()  # Should print error message
